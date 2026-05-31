@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Montserrat } from "next/font/google";
+import { AssetPathStyles } from "@/components/layout/asset-path-styles";
 import { Providers } from "@/components/providers";
 import "./globals.css";
 import "../styles/studio-page.css";
@@ -28,6 +29,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} ${montserrat.variable} h-full`}>
+      <head>
+        <AssetPathStyles />
+      </head>
       <body className="studio-app h-full overflow-hidden">
         <Providers>{children}</Providers>
       </body>

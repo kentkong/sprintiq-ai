@@ -233,7 +233,7 @@
       rgba(5, 10, 20, 0.72) 0%,
       rgba(5, 10, 20, 0.84) 100%
     ),
-    url("/textures/slate-sidebar.png");
+    var(--texture-slate-sidebar);
   background-size: cover;
   background-position: center top;
   background-repeat: no-repeat;
@@ -333,7 +333,7 @@
       rgba(5, 10, 20, 0.58) 40%,
       rgba(5, 10, 20, 0.88) 100%
     ),
-    url("/textures/slate-sidebar.png");
+    var(--texture-slate-sidebar);
   background-size: cover;
   background-position: bottom center;
   background-repeat: no-repeat;

@@ -44,7 +44,13 @@ npm install
 npm run dev
 ```
 
-Open **http://127.0.0.1:3001**
+Open **http://127.0.0.1:3001/sprintiq-ai/** (local dev uses the same `/sprintiq-ai` base path as GitHub Pages)
+
+## Live demo (GitHub Pages)
+
+**https://kentkong.github.io/sprintiq-ai/**
+
+Same static export setup as [Pulse-Ops AI](https://kentkong.github.io/pulse-ops-ai/architecture/) — deploys automatically on push to `main`.
 
 ## Tech stack
 
