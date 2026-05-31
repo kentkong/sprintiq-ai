@@ -192,6 +192,8 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   --studio-topbar-height: 4.5rem;
+  --studio-stepper-height: 6.5rem;
+  --studio-workflow-width: 52rem;
   --studio-topbar-border: rgba(45, 212, 191, 0.1);
 }
 
@@ -702,7 +704,7 @@ button.studio-nav-link {
   z-index: 1;
   display: flex;
   width: 100%;
-  max-width: 52rem;
+  max-width: var(--studio-workflow-width);
   margin-inline: auto;
   padding: 1.25rem 1.5rem 0.5rem;
   align-items: flex-start;
@@ -1200,40 +1202,91 @@ button.studio-nav-link {
 }
 
 /* ── Hero ──────────────────────────────────────────────────── */
+.studio-objective-viewport {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: calc(100dvh - var(--studio-topbar-height) - var(--studio-stepper-height));
+}
+
 .studio-hero-section {
   position: relative;
-  overflow: hidden;
+  width: 100%;
+  max-width: var(--studio-workflow-width);
+  margin-inline: auto;
+  padding-inline: 1.5rem;
 }
 
 .studio-hero-stack {
   display: flex;
   flex-direction: column;
-  gap: 1.125rem;
+  align-items: center;
+  gap: 1.25rem;
+  width: 100%;
+  margin-inline: auto;
 }
 
+.studio-hero-headline,
 .studio-hero-copy,
 .workflow-page__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
   text-align: center;
 }
 
+.studio-hero-headline .studio-eyebrow--underlined,
+.studio-hero-copy .studio-eyebrow--underlined {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
+  gap: 0.2rem;
+}
+
+.studio-hero-headline .studio-eyebrow__word,
+.studio-hero-copy .studio-eyebrow__word {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
+  text-align: center;
+  padding-right: 0.38em;
+}
+
+.studio-hero-headline .studio-eyebrow--underlined,
 .studio-hero-copy .studio-eyebrow--underlined,
 .workflow-page__header .studio-eyebrow--underlined {
   margin-bottom: 0.625rem;
   padding-bottom: 0.45rem;
 }
 
-.studio-hero-copy .studio-hero-lead,
-.workflow-page__header .studio-hero-lead {
-  margin-top: 0.625rem;
+.studio-hero-headline .studio-hero-title--single,
+.studio-hero-copy .studio-hero-title--single {
+  width: fit-content;
+  max-width: 100%;
   margin-inline: auto;
-  max-width: 34rem;
-  font-size: 0.9375rem;
-  line-height: 1.55;
+  white-space: normal;
+  text-wrap: balance;
+  font-size: clamp(1.375rem, 3.1vw, 2.875rem);
+  text-align: center;
 }
 
-.studio-hero-copy .studio-hero-title--single {
-  white-space: nowrap;
-  font-size: clamp(1.375rem, 3.1vw, 2.875rem);
+.studio-hero-headline .studio-hero-lead,
+.studio-hero-copy .studio-hero-lead,
+.workflow-page__header .studio-hero-lead {
+  width: fit-content;
+  max-width: 34rem;
+  margin-top: 0.625rem;
+  margin-inline: auto;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  text-align: center;
 }
 
 .workflow-page__header .studio-hero-title {
@@ -1245,6 +1298,7 @@ button.studio-nav-link {
   border-radius: 50%;
   pointer-events: none;
   filter: blur(80px);
+  z-index: 0;
 }
 
 .studio-hero-section__fade--teal {

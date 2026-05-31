@@ -36,15 +36,17 @@ export function SprintIQStudio() {
 
   return (
     <WorkflowShell>
-      <LandingHero
-        value={objective}
-        examples={FEATURED_EXAMPLES}
-        activeExampleId={activeExampleId}
-        onChange={setObjective}
-        onSelectExample={(example) => runGenerate(example.objective, example.id)}
-        onGenerate={() => runGenerate()}
-        isGenerating={isGenerating}
-      />
+      <div className="studio-objective-viewport">
+        <LandingHero
+          value={objective}
+          examples={FEATURED_EXAMPLES}
+          activeExampleId={activeExampleId}
+          onChange={setObjective}
+          onSelectExample={(example) => runGenerate(example.objective, example.id)}
+          onGenerate={() => runGenerate()}
+          isGenerating={isGenerating}
+        />
+      </div>
       {!isGenerating && (
         <>
           <MissionCanvas />

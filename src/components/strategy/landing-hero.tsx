@@ -33,22 +33,22 @@ export function LandingHero({
   const canSubmit = value.trim().length > 3 && !isGenerating;
 
   return (
-    <section className="studio-hero-section studio-section relative px-6 py-8 lg:px-10 lg:py-9">
+    <section className="studio-hero-section studio-section relative py-10 lg:py-12">
       <div className="studio-hero-section__fade studio-hero-section__fade--teal" aria-hidden />
       <div className="studio-hero-section__fade studio-hero-section__fade--purple" aria-hidden />
-      <div className="studio-hero-stack relative z-[1] mx-auto max-w-4xl">
-        <div className="studio-hero-copy mx-auto max-w-3xl text-center">
+      <div className="studio-hero-stack relative z-[1]">
+        <div className="studio-hero-headline">
           <StudioEyebrow text="Sprint Studio" variant="underlined" />
           <h2 className="studio-hero-title studio-hero-title--single">
             Turn objectives into{" "}
             <span className="studio-hero-gradient">delivery-ready plans</span>
           </h2>
-          <p className="studio-hero-lead mx-auto max-w-xl">
+          <p className="studio-hero-lead">
             Generate a full delivery blueprint — initiatives, stakeholders, risks, and executive brief.
           </p>
         </div>
 
-        <div className="studio-objective-box studio-objective-box--hero">
+        <div className="studio-objective-box studio-objective-box--hero w-full">
           <div className="studio-example-picker">
             <span className="studio-example-picker__label">Try an example</span>
             <div className="studio-example-picker__pills">
