@@ -1,5 +1,14 @@
-import { ArchivePage } from "@/components/strategy/archive-page";
+"use client";
 
-export default function Page() {
-  return <ArchivePage />;
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+
+export default function ArchiveRedirectPage() {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.replace("/plans");
+  }, [router]);
+
+  return null;
 }

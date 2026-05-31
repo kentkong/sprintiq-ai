@@ -1,17 +1,29 @@
 "use client";
 
-import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from "react";
 import { flushSync } from "react-dom";
 import type { Blueprint } from "@/lib/blueprint-types";
-import { FEATURED_EXAMPLES } from "@/lib/blueprint-templates";
+import {
+  clearBlueprintSession,
+  DEFAULT_OBJECTIVE,
+  readBlueprintSession,
+  writeBlueprintSession,
+} from "@/lib/blueprint-session";
 import { generateBlueprint } from "@/lib/generate-blueprint";
-
-const DEFAULT_OBJECTIVE = FEATURED_EXAMPLES[0].objective;
 
 type BlueprintStore = {
   objective: string;
   blueprint: Blueprint | null;
   isGenerating: boolean;
+  hydrated: boolean;
   setObjective: (value: string) => void;
   generatePlan: (objectiveOverride?: string, templateId?: string) => Promise<boolean>;
   clearPlan: () => void;
@@ -20,33 +32,70 @@ type BlueprintStore = {
 const BlueprintContext = createContext<BlueprintStore | null>(null);
 
 export function BlueprintProvider({ children }: { children: ReactNode }) {
-  const [objective, setObjective] = useState(DEFAULT_OBJECTIVE);
+  const [objective, setObjectiveState] = useState(DEFAULT_OBJECTIVE);
   const [blueprint, setBlueprint] = useState<Blueprint | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
 
-  const generatePlan = useCallback(async (objectiveOverride?: string, templateId?: string) => {
-    const trimmed = (objectiveOverride ?? objective).trim();
-    if (trimmed.length < 4 || isGenerating) return false;
-
-    if (objectiveOverride) {
-      setObjective(objectiveOverride);
+  useEffect(() => {
+    const session = readBlueprintSession();
+    if (session) {
+      setObjectiveState(session.objective);
+      setBlueprint(session.blueprint);
     }
+    setHydrated(true);
+  }, []);
 
-    setIsGenerating(true);
-    await new Promise((resolve) => setTimeout(resolve, 1400));
+  const persist = useCallback((nextObjective: string, nextBlueprint: Blueprint | null) => {
+    writeBlueprintSession({ objective: nextObjective, blueprint: nextBlueprint });
+  }, []);
 
-    flushSync(() => {
-      setBlueprint(generateBlueprint(trimmed, templateId));
-      setIsGenerating(false);
-    });
+  const setObjective = useCallback(
+    (value: string) => {
+      setObjectiveState(value);
+      if (hydrated) {
+        persist(value, blueprint);
+      }
+    },
+    [blueprint, hydrated, persist],
+  );
 
-    return true;
-  }, [objective, isGenerating]);
+  const generatePlan = useCallback(
+    async (objectiveOverride?: string, templateId?: string) => {
+      const trimmed = (objectiveOverride ?? objective).trim();
+      if (trimmed.length < 4 || isGenerating) return false;
+
+      const nextObjective = objectiveOverride ?? objective;
+
+      setIsGenerating(true);
+
+      flushSync(() => {
+        if (objectiveOverride) {
+          setObjectiveState(nextObjective);
+        }
+      });
+
+      await new Promise((resolve) => setTimeout(resolve, 1400));
+
+      let generated: Blueprint | null = null;
+
+      flushSync(() => {
+        generated = generateBlueprint(trimmed, templateId);
+        setBlueprint(generated);
+        setIsGenerating(false);
+      });
+
+      persist(nextObjective, generated);
+      return true;
+    },
+    [objective, isGenerating, persist],
+  );
 
   const clearPlan = useCallback(() => {
-    setObjective(DEFAULT_OBJECTIVE);
+    setObjectiveState(DEFAULT_OBJECTIVE);
     setBlueprint(null);
     setIsGenerating(false);
+    clearBlueprintSession();
   }, []);
 
   const value = useMemo(
@@ -54,11 +103,12 @@ export function BlueprintProvider({ children }: { children: ReactNode }) {
       objective,
       blueprint,
       isGenerating,
+      hydrated,
       setObjective,
       generatePlan,
       clearPlan,
     }),
-    [objective, blueprint, isGenerating, generatePlan, clearPlan],
+    [objective, blueprint, isGenerating, hydrated, setObjective, generatePlan, clearPlan],
   );
 
   return <BlueprintContext.Provider value={value}>{children}</BlueprintContext.Provider>;

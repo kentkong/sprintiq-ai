@@ -11,7 +11,7 @@ export function BlueprintPage() {
     return (
       <WorkflowShell>
         <div className="flex flex-1 items-center justify-center p-8 text-sm text-[var(--muted)]">
-          Generating blueprint…
+          Loading plan…
         </div>
       </WorkflowShell>
     );

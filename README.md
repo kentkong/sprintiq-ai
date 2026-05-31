@@ -20,7 +20,7 @@ SprintIQ AI is a **portfolio demo** that shows how an AI-assisted strategy studi
 | Route | Purpose |
 |-------|---------|
 | `/library` | Mission templates — click to generate |
-| `/archive` | Blueprints from the current session |
+| `/plans` | Saved blueprints from the current session |
 | `/copilot` | Redirects to Review |
 
 ## Demo examples

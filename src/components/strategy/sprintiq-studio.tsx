@@ -41,7 +41,7 @@ export function SprintIQStudio() {
         examples={FEATURED_EXAMPLES}
         activeExampleId={activeExampleId}
         onChange={setObjective}
-        onSelectExample={(example) => setObjective(example.objective)}
+        onSelectExample={(example) => runGenerate(example.objective, example.id)}
         onGenerate={() => runGenerate()}
         isGenerating={isGenerating}
       />

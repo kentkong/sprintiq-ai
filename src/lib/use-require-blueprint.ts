@@ -1,28 +1,35 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useBlueprintStore } from "@/lib/blueprint-store";
 import type { WorkflowStep } from "@/lib/blueprint-types";
 import { WORKFLOW_ROUTES } from "@/lib/blueprint-types";
 
 export function useRequireBlueprint(step: WorkflowStep) {
   const router = useRouter();
-  const { blueprint, isGenerating } = useBlueprintStore();
+  const { blueprint, isGenerating, hydrated } = useBlueprintStore();
+  const blueprintRef = useRef(blueprint);
+
+  blueprintRef.current = blueprint;
 
   useEffect(() => {
+    if (!hydrated) return;
     if (step === "objective") return;
     if (isGenerating) return;
     if (blueprint) return;
 
     const timer = window.setTimeout(() => {
-      if (!blueprint) {
+      if (!blueprintRef.current) {
         router.replace(WORKFLOW_ROUTES.objective);
       }
-    }, 50);
+    }, 150);
 
     return () => window.clearTimeout(timer);
-  }, [blueprint, isGenerating, router, step]);
+  }, [blueprint, hydrated, isGenerating, router, step]);
 
-  return { blueprint, ready: Boolean(blueprint) };
+  return {
+    blueprint,
+    ready: hydrated && (step === "objective" || Boolean(blueprint)),
+  };
 }
