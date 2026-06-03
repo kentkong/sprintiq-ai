@@ -2083,3 +2083,111 @@ button.studio-nav-link {
   color: #5eead4;
   box-shadow: 0 0 24px rgba(45, 212, 191, 0.15);
 }
+
+/* ── Mobile layout ───────────────────────────────────────── */
+@media (max-width: 767px) {
+  html,
+  body {
+    overflow-x: clip;
+  }
+
+  .studio-shell {
+    --studio-workflow-width: 100%;
+    --studio-topbar-height: 3.75rem;
+    --studio-stepper-height: auto;
+  }
+
+  .studio-sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 70;
+    width: min(17.5rem, 86vw);
+    min-width: 0;
+    height: 100dvh;
+    transform: translateX(-105%);
+    transition: transform 0.24s ease;
+    box-shadow: 24px 0 48px rgba(0, 0, 0, 0.35);
+  }
+
+  .studio-shell--nav-open .studio-sidebar {
+    transform: translateX(0);
+  }
+
+  .studio-nav-scrim {
+    position: fixed;
+    inset: 0;
+    z-index: 65;
+    border: none;
+    padding: 0;
+    background: rgba(2, 6, 16, 0.62);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    cursor: pointer;
+  }
+
+  .studio-main {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .studio-header-band {
+    padding-inline: 0.85rem;
+  }
+
+  .studio-user-chip {
+    padding-right: 0.45rem;
+  }
+
+  .studio-user-chip__text {
+    display: none;
+  }
+
+  .mission-progress-track {
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding: 0.85rem 1rem 0.35rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .mission-progress-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mission-step {
+    min-width: 5rem;
+    flex: 0 0 auto;
+  }
+
+  .mission-step__label {
+    font-size: 0.5625rem;
+  }
+
+  .studio-workflow-shell,
+  .studio-page-shell,
+  .sprintiq-studio,
+  .landing-hero,
+  .blueprint-page,
+  .review-page,
+  .ready-page {
+    padding-inline: 1rem;
+  }
+
+  .popular-missions__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .studio-context-panel {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .mission-step {
+    min-width: 4.5rem;
+  }
+
+  .studio-sidebar-brand {
+    padding-inline: 0.65rem;
+  }
+}

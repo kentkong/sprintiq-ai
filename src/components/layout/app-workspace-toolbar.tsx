@@ -1,15 +1,29 @@
 "use client";
 
-import { Bell, Megaphone, Target } from "lucide-react";
+import { Bell, Megaphone, Menu, Target, X } from "lucide-react";
 
-export function AppWorkspaceToolbar() {
+type AppWorkspaceToolbarProps = {
+  onMenuToggle?: () => void;
+  navOpen?: boolean;
+};
+
+export function AppWorkspaceToolbar({ onMenuToggle, navOpen = false }: AppWorkspaceToolbarProps) {
   return (
-    <header className="studio-header-band flex w-full shrink-0 items-center justify-end px-6">
-      <div className="flex items-center gap-2">
-        <button type="button" className="studio-icon-btn" aria-label="Target">
+    <header className="studio-header-band flex w-full shrink-0 items-center justify-between gap-3 px-4 sm:px-6">
+      <button
+        type="button"
+        className="studio-icon-btn studio-menu-toggle md:hidden"
+        aria-label={navOpen ? "Close navigation menu" : "Open navigation menu"}
+        aria-expanded={navOpen}
+        onClick={onMenuToggle}
+      >
+        {navOpen ? <X className="h-4 w-4" strokeWidth={1.5} /> : <Menu className="h-4 w-4" strokeWidth={1.5} />}
+      </button>
+      <div className="ml-auto flex items-center gap-2">
+        <button type="button" className="studio-icon-btn hidden sm:flex" aria-label="Target">
           <Target className="h-4 w-4" strokeWidth={1.5} />
         </button>
-        <button type="button" className="studio-icon-btn" aria-label="Announcements">
+        <button type="button" className="studio-icon-btn hidden sm:flex" aria-label="Announcements">
           <Megaphone className="h-4 w-4" strokeWidth={1.5} />
         </button>
         <button type="button" className="studio-icon-btn" aria-label="Notifications">

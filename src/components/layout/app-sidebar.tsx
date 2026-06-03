@@ -7,13 +7,14 @@ import { WORKFLOW_PATHS, WORKSPACE_NAV } from "@/lib/nav-config";
 import { useBlueprintStore } from "@/lib/blueprint-store";
 import { cn } from "@/lib/utils";
 
-export function AppSidebar() {
+export function AppSidebar({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname();
   const router = useRouter();
   const { clearPlan } = useBlueprintStore();
 
   const handleNewPlan = () => {
     clearPlan();
+    onNavigate?.();
     router.push("/");
   };
 
@@ -60,6 +61,7 @@ export function AppSidebar() {
               <li key={item.href}>
                 <Link
                   href={item.href!}
+                  onClick={() => onNavigate?.()}
                   className={cn("studio-nav-link", active && "studio-nav-link--active")}
                 >
                   <span className={cn("studio-nav-icon", `studio-nav-icon--${item.accent}`)}>
